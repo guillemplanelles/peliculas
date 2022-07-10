@@ -25,4 +25,16 @@ class MoviesProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  getPopularMovies() async {
+    var url = Uri.https(this._baseUrl, '3/movie/popular',
+        {'api_key': _apiKey, 'language': _language, 'page': '1'});
+
+    final response = await http.get(url);
+    final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
+
+    this.onDisplayMovies = nowPlayingResponse.results;
+
+    notifyListeners();
+  }
 }
